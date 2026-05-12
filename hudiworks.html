@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Hu Di Artworks – Contemporary Digital &amp; Mixed Media Artist</title>
+<meta name="description" content="Hu Di creates immersive, interactive installations merging AI, integrated media, and miniature worlds."/>
+<style>
+@font-face{
+  font-family:'MG';
+  src:url('https://type.cargo.site/files/CargoMonumentGroteskPlusVariable.woff2') format('woff2');
+  font-weight:100 900;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#2adf51;
+  --g-dim:rgba(42,223,81,0.75);
+  --nav-w:31%;
+  --f:'MG','Helvetica Neue',Arial,sans-serif;
+}
+html,body{
+  width:100%;min-height:100vh;
+  background:#fff;
+  font-family:var(--f);
+  font-size:1rem;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  color:#111;
+}
+a{color:inherit;text-decoration:none;cursor:pointer}
+
+/* ── SIDEBAR ── */
+#sidebar{
+  position:fixed;top:0;left:0;
+  width:var(--nav-w);height:100vh;
+  overflow-y:auto;scrollbar-width:none;
+  padding:22px 22px 32px 26px;
+  display:flex;flex-direction:column;
+  z-index:10;
+  background:#fff;
+  transition:background .3s;
+}
+body.at-home #sidebar{background:transparent;}
+#sidebar::-webkit-scrollbar{display:none}
+
+/* Kaleidoscope canvas — homepage only, full screen bg */
+#kCanvas{
+  position:fixed;top:0;left:0;
+  width:100vw;height:100vh;
+  z-index:0;
+  pointer-events:none;
+  display:none; /* shown on homepage only */
+}
+
+.brand{
+  font-size:24px;
+  font-weight:700;
+  color:var(--g);
+  line-height:1.32;
+  margin-bottom:71px;
+  cursor:pointer;
+}
+.brand:hover{opacity:.8}
+
+.nav-section{margin-bottom:0.3rem}
+.nav-label{
+  font-size:14.62px;
+  font-weight:700;
+  color:var(--g);
+  margin-bottom:34px;
+  display:block;
+  line-height:19px;
+}
+.nav-ul{
+  list-style:none;
+  padding-left:0;
+  margin-bottom:0;
+}
+.nav-ul li{line-height:19px;margin:0;}
+.nav-ul li a{
+  font-size:14.62px;
+  color:var(--g);
+  transition:opacity .15s;
+  display:block;
+  line-height:19px;
+}
+.nav-ul li a:hover{opacity:.6}
+.nav-ul li a.active{opacity:1;text-decoration:underline;text-underline-offset:2px}
+
+.nav-gap{display:none}
+#nav-works{margin-bottom:40px;}
+
+.nav-extras{margin-top:71px;padding-top:0;}
+.nav-extras a{
+  display:block;
+  font-size:14.62px;
+  color:var(--g);
+  line-height:19px;
+}
+.nav-extras a+a{margin-top:12px;}
+.nav-extras a:hover{opacity:.6}
+
+/* ── MAIN ── */
+#main{
+  margin-left:var(--nav-w);
+  min-height:100vh;
+  width:calc(100% - var(--nav-w));
+  position:relative;
+  z-index:1;
+}
+
+/* ── HOMEPAGE GALLERY ── */
+#home{
+  margin-left:26%;
+  width:74%;
+  max-width:none;
+  padding:0;
+}
+.g-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:.5rem;
+  padding:.5rem;
+}
+.g-cell{
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  background:#ddd;
+  aspect-ratio:4/3;
+}
+.g-cell img{
+  width:100%;height:100%;
+  object-fit:cover;display:block;
+  transition:transform .4s ease,opacity .3s;
+}
+.g-cell:hover img{transform:scale(1.04);opacity:.88}
+.g-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:.55rem .7rem;
+  background:linear-gradient(transparent,rgba(0,0,0,.58));
+  color:#fff;
+  opacity:0;
+  transform:translateY(5px);
+  transition:opacity .22s,transform .22s;
+  pointer-events:none;
+}
+.g-cell:hover .g-overlay{opacity:1;transform:translateY(0)}
+.g-overlay-title{font-size:.72rem;font-weight:600;display:block;line-height:1.25;letter-spacing:.01em}
+.g-overlay-year{font-size:.65rem;opacity:.78;display:block;margin-top:.12rem}
+
+/* ── PROJECT PAGE ── */
+#proj-view{display:none}
+.proj-header{
+  padding:2.2rem 2.4rem 0 2.4rem;
+  border-bottom:1px solid rgba(0,0,0,.09);
+  margin-bottom:2rem;
+}
+.proj-title{
+  font-size:1.5rem;
+  font-weight:400;
+  color:var(--g);
+  line-height:1.25;
+  letter-spacing:-.01em;
+  padding-bottom:.55rem;
+}
+.proj-info{
+  font-size:.85rem;
+  color:rgba(0,0,0,.45);
+  line-height:1.6;
+  font-weight:400;
+  padding-bottom:1.5rem;
+  max-width:780px;
+}
+.proj-body{
+  padding:0 2.4rem 5rem 2.4rem;
+}
+/* blocks */
+.block-img{margin-bottom:.45rem}
+.block-img img{
+  width:100%;height:auto;display:block;
+  background:#f0f0f0;
+}
+/* portrait hero: constrain to first screen */
+.block-img--portrait-hero img{
+  width:auto;
+  max-width:100%;
+  max-height:calc(100vh - 200px);
+  height:auto;
+}
+.block-grid{
+  display:grid;
+  gap:.45rem;
+  margin-bottom:.45rem;
+}
+.block-grid img{width:100%;height:auto;display:block;object-fit:cover}
+.block-caption{
+  font-size:.82rem;
+  font-weight:500;
+  color:rgba(0,0,0,.5);
+  line-height:1.55;
+  margin-bottom:2.4rem;
+  max-width:780px;
+}
+/* text block: wrap + paragraphs */
+.text-block-wrap{
+  margin-bottom:2.4rem;
+  max-width:780px;
+}
+.text-meta{
+  font-size:.85rem;
+  line-height:1.6;
+  color:rgba(0,0,0,.45);
+  margin-bottom:.25em;
+  font-weight:400;
+}
+.text-meta:last-child{margin-bottom:1.6rem}
+.text-para{
+  font-size:1rem;
+  line-height:1.78;
+  color:rgba(0,0,0,.76);
+  margin-bottom:.85em;
+}
+.text-para:last-child{margin-bottom:0}
+/* legacy .block-text kept for info pages */
+.block-text{
+  font-size:1rem;
+  line-height:1.78;
+  color:rgba(0,0,0,.76);
+  margin-bottom:.85em;
+  max-width:780px;
+}
+.block-video{
+  margin-bottom:2.4rem;
+  position:relative;
+  padding-bottom:56.25%;
+  height:0;
+  overflow:hidden;
+  max-width:100%;
+}
+.block-video iframe{
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  border:none;
+}
+
+/* ── INFO/WORKSHOP PAGE ── */
+#info-view{display:none}
+.info-header{padding:2.2rem 2.4rem 0 2.4rem;border-bottom:1px solid rgba(0,0,0,.09);margin-bottom:2rem}
+.info-title{font-size:1.5rem;font-weight:400;color:var(--g);line-height:1.25;letter-spacing:-.01em;padding-bottom:1.5rem}
+.info-body{
+  padding:0 2.4rem 5rem 2.4rem;
+  max-width:780px;
+}
+.info-body .text-para,.info-body .block-text{font-size:1rem;line-height:1.8;color:rgba(0,0,0,.76);margin-bottom:.85em}
+.info-body .block-img{margin-bottom:1.4rem}
+.info-body .block-img img{max-width:100%;height:auto;display:block}
+
+/* ── WORKSHOP / INFO BLOCK TYPES ── */
+.block-heading{
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:rgba(0,0,0,.38);
+  margin:2.4rem 0 .55rem 0;
+}
+.block-heading:first-child{margin-top:.4rem}
+.block-list{
+  list-style:none;
+  padding:0;
+  margin:0 0 1.4rem 0;
+}
+.block-list li{
+  font-size:1rem;
+  line-height:1.78;
+  color:rgba(0,0,0,.76);
+  padding-left:1.3em;
+  position:relative;
+  margin-bottom:.25em;
+}
+.block-list li::before{
+  content:'—';
+  position:absolute;
+  left:0;
+  color:rgba(0,0,0,.25);
+  font-size:.9em;
+}
+.block-divider{
+  border:none;
+  border-top:1px solid rgba(0,0,0,.09);
+  margin:2.8rem 0;
+}
+.block-contact{
+  margin-top:1rem;
+}
+.block-contact a{
+  color:rgba(0,0,0,.65);
+  text-decoration:none;
+  border-bottom:1px solid rgba(0,0,0,.2);
+}
+.block-contact a:hover{color:var(--g);border-bottom-color:var(--g)}
+
+/* ── WORKSHOP VISUAL BLOCKS ── */
+
+/* icon-cards: 2×2 grid */
+.block-icon-cards{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:rgba(0,0,0,.08);
+  border:1px solid rgba(0,0,0,.08);
+  margin:0 0 2rem 0;
+}
+.icon-card{
+  background:#fff;
+  padding:1.35rem 1.15rem 1.2rem;
+}
+.icon-card svg{
+  width:20px;height:20px;
+  display:block;
+  stroke:var(--g);
+  fill:none;
+  stroke-width:1.6;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  margin-bottom:.75rem;
+}
+.icon-card-label{
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:var(--g);
+  margin-bottom:.38rem;
+}
+.icon-card-desc{
+  font-size:.88rem;
+  line-height:1.65;
+  color:rgba(0,0,0,.62);
+}
+
+/* format-cards: stacked rows */
+.block-format-cards{
+  display:flex;
+  flex-direction:column;
+  gap:1px;
+  background:rgba(0,0,0,.08);
+  border:1px solid rgba(0,0,0,.08);
+  margin:0 0 2rem 0;
+}
+.format-card{
+  background:#fff;
+  padding:1.05rem 1.15rem;
+  display:grid;
+  grid-template-columns:6.5rem 1fr;
+  gap:1rem;
+  align-items:start;
+}
+.format-time{
+  font-size:.75rem;
+  color:rgba(0,0,0,.35);
+  line-height:1.4;
+  padding-top:.18rem;
+  font-variant-numeric:tabular-nums;
+}
+.format-name{
+  font-size:.88rem;
+  font-weight:700;
+  color:var(--g);
+  margin-bottom:.2rem;
+  letter-spacing:.01em;
+}
+.format-desc{
+  font-size:.87rem;
+  line-height:1.65;
+  color:rgba(0,0,0,.65);
+}
+
+/* tag-cloud: pill tags */
+.block-tag-cloud{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.45rem;
+  margin:0 0 2rem 0;
+}
+.topic-tag{
+  font-size:.84rem;
+  color:rgba(0,0,0,.68);
+  border:1px solid rgba(0,0,0,.14);
+  padding:.32em .85em;
+  border-radius:99px;
+  line-height:1.5;
+  transition:border-color .15s,color .15s;
+  cursor:default;
+}
+.topic-tag:hover{border-color:var(--g);color:var(--g)}
+
+/* audience-tags: simple chips */
+.block-audience-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.38rem;
+  margin:0 0 1rem 0;
+}
+.audience-chip{
+  font-size:.82rem;
+  background:rgba(0,0,0,.04);
+  color:rgba(0,0,0,.65);
+  padding:.28em .75em;
+  border-radius:3px;
+  line-height:1.5;
+}
+
+/* contact-links */
+.block-contact-links{
+  display:flex;
+  flex-direction:column;
+  gap:.65rem;
+  margin:.4rem 0 2rem 0;
+}
+.contact-link-row{
+  display:flex;
+  align-items:center;
+  gap:.65rem;
+  color:rgba(0,0,0,.68);
+  text-decoration:none;
+  font-size:.95rem;
+}
+.contact-link-row svg{
+  width:17px;height:17px;
+  flex-shrink:0;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:1.6;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.contact-link-row:hover{color:var(--g)}
+
+@media(max-width:900px){
+  .block-icon-cards{grid-template-columns:1fr 1fr}
+  .format-card{grid-template-columns:5rem 1fr}
+}
+@media(max-width:480px){
+  .block-icon-cards{grid-template-columns:1fr}
+  .format-card{grid-template-columns:1fr;gap:.3rem}
+  .format-time{font-size:.72rem}
+}
+
+/* ── PAGE TRANSITIONS ── */
+@keyframes pageFadeIn{
+  from{opacity:0;transform:translateY(7px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.page-enter{animation:pageFadeIn .2s ease both}
+
+/* ── MOBILE ── */
+#m-header{
+  display:none;position:fixed;top:0;left:0;right:0;z-index:300;
+  background:#fff;padding:.8rem 1.1rem;
+  border-bottom:1px solid rgba(0,0,0,.1);
+  align-items:center;justify-content:space-between;
+}
+.m-logo{font-size:.95rem;font-weight:700;color:var(--g);cursor:pointer}
+.burger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:3px}
+.burger span{display:block;width:22px;height:1.5px;background:var(--g);transition:all .22s}
+.burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+#m-nav{
+  display:none;position:fixed;inset:0;z-index:299;
+  background:#fff;padding:4.5rem 1.5rem 2rem;
+  overflow-y:auto;transform:translateX(-100%);transition:transform .28s;
+}
+#m-nav.open{transform:translateX(0)}
+#m-nav .nav-ul{list-style:none;padding-left:0;}
+#m-nav .nav-ul li a{color:var(--g);font-size:.9rem;line-height:1.9}
+#m-nav .nav-label{color:var(--g);font-weight:700;font-size:.9rem;margin-bottom:.1rem;display:block}
+#m-nav .nav-extras a{color:var(--g);font-size:.9rem;line-height:2.2;display:block}
+
+@media(max-width:900px){
+  #sidebar,#kCanvas{display:none!important}
+  #m-header{display:flex}
+  #m-nav{display:block}
+  #main{margin-left:0;width:100%;padding-top:3.2rem}
+  #home{max-width:100%;padding:.4rem;margin-left:0;width:100%}
+  .g-grid{grid-template-columns:repeat(2,1fr);gap:.4rem;padding:.4rem}
+  .proj-body,.info-body{padding:0 1.1rem 3.5rem 1.1rem;max-width:100%}
+  .proj-header,.info-header{padding:1.4rem 1.2rem 1rem 1.2rem}
+  .proj-title,.info-title{font-size:1.2rem}
+  .proj-body,.info-body{padding:0 1.2rem 3.5rem 1.2rem}
+  .text-para,.block-text{font-size:.95rem;line-height:1.75}
+  .text-meta{font-size:.82rem}
+  .text-block-wrap{max-width:100%}
+  .block-caption{font-size:.78rem}
+}
+@media(max-width:480px){
+  .g-grid{grid-template-columns:1fr;gap:.35rem}
+  .proj-title,.info-title{font-size:1.05rem}
+  .text-para,.block-text{font-size:.9rem;line-height:1.7}
+  .text-meta{font-size:.78rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Kaleidoscope (left sidebar bg, homepage only) -->
+<canvas id="kCanvas"></canvas>
+
+<!-- Mobile header -->
+<header id="m-header">
+  <span class="m-logo" onclick="goHome()">Hu Di's Portfolio</span>
+  <button class="burger" id="burger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- Mobile nav -->
+<div id="m-nav">
+  <span class="nav-label">Projects</span>
+  <ul class="nav-ul" id="m-nav-works"></ul>
+  <div style="height:.7rem"></div>
+  <span class="nav-label">Curations</span>
+  <ul class="nav-ul" id="m-nav-curations"></ul>
+  <div style="height:.7rem"></div>
+  <div class="nav-extras" id="m-nav-extras" style="margin-top:.5rem"></div>
+</div>
+
+<!-- Sidebar -->
+<nav id="sidebar">
+  <div class="brand" onclick="goHome()">Hu Di's Portfolio</div>
+
+  <div class="nav-section">
+    <span class="nav-label">Projects</span>
+    <ul class="nav-ul" id="nav-works"></ul>
+  </div>
+
+  <div class="nav-gap"></div>
+
+  <div class="nav-section">
+    <span class="nav-label">Curations</span>
+    <ul class="nav-ul" id="nav-curations"></ul>
+  </div>
+
+  <div class="nav-extras" id="nav-extras"></div>
+</nav>
+
+<!-- Main area -->
+<main id="main">
+
+  <!-- Homepage gallery -->
+  <div id="home">
+    <div class="g-grid" id="gallery"></div>
+  </div>
+
+  <!-- Project view -->
+  <div id="proj-view">
+    <div class="proj-header">
+      <h1 class="proj-title" id="proj-title"></h1>
+      <p class="proj-info" id="proj-info"></p>
+    </div>
+    <div class="proj-body" id="proj-body"></div>
+  </div>
+
+  <!-- Info/Workshop view -->
+  <div id="info-view">
+    <div class="info-header">
+      <h1 class="info-title" id="info-title"></h1>
+    </div>
+    <div class="info-body" id="info-body"></div>
+  </div>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// 项目数据区  —  在下方找到对应项目常量进行编辑，项目之间互不影响
+// 块类型说明：title / image / text / caption / grid / video
+// ═══════════════════════════════════════════════════════════════════════
+
+// ─── The Garden of Digital Delights ──────────────────────────────────
+const PAGE_THE_GARDEN_OF_DIGITAL_DELIGHTS = {
+  purl:  "the-garden-of-digital-delights",
+  title: "The Garden of Digital Delights",
+  thumb: "images/garden/7J7A7684.JPG",
+  blocks: [
+    { type:"title", content:"The Garden of Digital Delights" },
+    { type:"image", url:"images/garden/7J7A7684.JPG", thumb:"images/garden/7J7A7684.JPG", w:6960, h:4640, name:"7J7A7684.JPG" },
+    { type:"info", content:"March 2026  ·  Solo exhibition, REEF, Los Angeles  ·  Rubbing prints, miniature figurines, electronics, painting, site installation" },
+    { type:"text", content:`A solo exhibition staged inside REEF, the downtown Los Angeles tower whose commercial life has been slowly emptying for years. Three bodies of work are arranged through the gallery as an organic garden, each rooted in the building and in the digital condition the building was built to house.
+
+    Three series of work are arranged together through the space as an organic whole: prints made from rubbings of REEF's own environment, an installation combining miniature human figurines with electronic package components, and a group of paintings.
+
+    REEF itself is an important aspect of the work. Once an emblem of the LA office tower—full of corporate tenants, brokers, glossy ground-floor retail—the building has been quietly emptying. In the vacuum left by commercial decline, artists have moved in: studios on the upper floors, exhibitions in former showrooms, workshops in vacant lobbies. The Garden of Digital Delights reads this transformation both archaeologically and tenderly: the rise and fall of the skyscraper, the retreat of capital, and the incidental blooming of an art community in its wake.
+
+Set against the context of urban life and the digital age, the exhibition takes REEF itself as a subject—a typical LA skyscraper and office tower whose commercial life has been receding, and the art community that has taken root as that commercial community has declined.` },
+    { type:"grid", cols:1, images:[
+      { url:"images/garden/7J7A7693.JPG", thumb:"images/garden/7J7A7693.JPG", w:6960, h:4640 },
+      { url:"images/garden/7J7A7695.JPG", thumb:"images/garden/7J7A7695.JPG", w:6960, h:4640 },
+      { url:"images/garden/7J7A7706.JPG", thumb:"images/garden/7J7A7706.JPG", w:6960, h:4640 },
+      { url:"images/garden/7J7A7717.JPG", thumb:"images/garden/7J7A7717.JPG", w:6960, h:4640 }
+    ] },
+    { type:"image", url:"images/garden/7J7A7733.JPG", thumb:"images/garden/7J7A7733.JPG", w:6960, h:4640, name:"7J7A7733.JPG" },
+    { type:"image", url:"images/garden/7J7A7734.JPG", thumb:"images/garden/7J7A7734.JPG", w:6960, h:4640, name:"7J7A7734.JPG" },
+    { type:"grid", cols:1, images:[
+      { url:"images/garden/IMG_8223.JPG", thumb:"images/garden/IMG_8223.JPG", w:5712, h:4284 },
+      { url:"images/garden/IMG_8227.JPG", thumb:"images/garden/IMG_8227.JPG", w:5712, h:4284 },
+      { url:"images/garden/IMG_8257.JPG", thumb:"images/garden/IMG_8257.JPG", w:5712, h:4284 },
+      { url:"images/garden/IMG_8262.JPG", thumb:"images/garden/IMG_8262.JPG", w:5712, h:4284 },
+      { url:"images/garden/IMG_8273.JPG", thumb:"images/garden/IMG_8273.JPG", w:5712, h:4284 },
+      { url:"images/garden/IMG_8279.JPG", thumb:"images/garden/IMG_8279.JPG", w:5712, h:4284 }
+    ] },
+    { type:"grid", cols:2, images:[
+      { url:"images/garden/IMG_8245.JPG", thumb:"images/garden/IMG_8245.JPG", w:4032, h:3024 },
+      { url:"images/garden/IMG_8249.JPG", thumb:"images/garden/IMG_8249.JPG", w:4032, h:3024 },
+      { url:"images/garden/IMG_8251.JPG", thumb:"images/garden/IMG_8251.JPG", w:4032, h:3024 },
+      { url:"images/garden/IMG_8265.JPG", thumb:"images/garden/IMG_8265.JPG", w:4032, h:3024 },
+      { url:"images/garden/IMG_8267.JPG", thumb:"images/garden/IMG_8267.JPG", w:4032, h:3024 },
+      { url:"images/garden/IMG_8270.JPG", thumb:"images/garden/IMG_8270.JPG", w:4032, h:3024 },
+      { url:"images/garden/IMG_8271.JPG", thumb:"images/garden/IMG_8271.JPG", w:4032, h:3024 },
+      { url:"images/garden/IMG_8272.JPG", thumb:"images/garden/IMG_8272.JPG", w:2100, h:1576 }
+    ] },
+  ]
+};
+
+// ─── Echo Chamber Realms ─────────────────────────────────────────────
+const PAGE_ECHO_CHAMBER_REALMS_1 = {
+  purl:  "echo-chamber-realms-1",
+  title: "Echo Chamber Realms",
+  thumb: "images/X1737148215781859239393866176583_a437c358958c9e8ce567767cf9f32e4c.jpg",
+  blocks: [
+    { type:"title", content:"Echo Chamber Realms" },
+    { type:"image", url:"images/K1737141840328852948340893964359_7J7A1300.jpg", thumb:"images/X1737148215781859239393866176583_a437c358958c9e8ce567767cf9f32e4c.jpg", w:1590, h:974, name:"7J7A1300.jpg" },
+    { type:"info", content:"April 2024  ·  Interactive installation  ·  AI dialogue system, puppets, recycled materials, miniature city, video & sound" },
+    { type:"text", content:`Three puppet characters—Charlie the dog, Kaka the ostrich, and Lucy the mouse—occupy a miniature city built from domestic objects: frying pans, lint rollers, lipstick cases, screws. The city covers the floor of the installation space; the puppets stand at its edge. Tiny figurines and improbable animals inhabit the streets below.
+
+Each puppet is connected to an AI dialogue system that generates speech continuously—whether or not anyone is in the room. The characters address one another, respond, contradict, and form different dynamic. Their language is fluent and emotionally recognizable; they talk about how to be a better human in the society though all of they three are wired animal rather than human.
+
+When a visitor enters, they go through the path in the miniture city and find out that the conversation comes from the puppets and that they can also join the conversation and talk to the three puppets. The participation of the visitor will change the the course of the conversation forever.
+
+The sound fills the space. There is no scripted endpoint; the system runs until the gallery closes.` },
+    { type:"video", url:"https://www.youtube.com/embed/X73Xr98Dnhc" },
+    { type:"image", url:"images/Y1737147977191671390034525575239_7J7A1283.jpg", thumb:"images/Y1737147977191671390034525575239_7J7A1283.jpg", w:6960, h:4640, name:"7J7A1283.jpg" },
+    { type:"image", url:"images/X1737142016015643506350663555143_7J7A1285-copy.jpg", thumb:"images/X1737142016015643506350663555143_7J7A1285-copy.jpg", w:6960, h:4640, name:"7J7A1285-copy.jpg" },
+    { type:"image", url:"images/X1737148215781859239393866176583_a437c358958c9e8ce567767cf9f32e4c.jpg", thumb:"images/X1737148215781859239393866176583_a437c358958c9e8ce567767cf9f32e4c.jpg", w:6960, h:4640, name:"a437c358958c9e8ce567767cf9f32e4c.jpg" },
+    { type:"grid", cols:2, images:[
+      { url:"images/S1839167677268853105232581646407_7J7A1370-copy.jpg", thumb:"images/S1839167677268853105232581646407_7J7A1370-copy.jpg", w:6960, h:4640 },
+      { url:"images/H1839168741719773134568548096071_7J7A1392.JPG", thumb:"images/H1839168741719773134568548096071_7J7A1392.JPG", w:6960, h:4640 },
+      { url:"images/E1839169059760087709394927507527_7J7A1386.JPG", thumb:"images/E1839169059760087709394927507527_7J7A1386.JPG", w:6960, h:4640 },
+      { url:"images/T1839172460417357697750767917127_7J7A1422.jpg", thumb:"images/T1839172460417357697750767917127_7J7A1422.jpg", w:6246, h:4164 },
+      { url:"images/Q1839170114729381284844184426567_7J7A1423.JPG", thumb:"images/Q1839170114729381284844184426567_7J7A1423.JPG", w:6960, h:4640 },
+      { url:"images/N1831280800985994222900252399687_7J7A1393.JPG", thumb:"images/N1831280800985994222900252399687_7J7A1393.JPG", w:6960, h:4640 }
+    ] },
+    { type:"image", url:"images/C1737148308439854721636943943751_905ed02d8bf0d194f8d91f3ef7fdc11a.jpg", thumb:"images/C1737148308439854721636943943751_905ed02d8bf0d194f8d91f3ef7fdc11a.jpg", w:6960, h:4640, name:"905ed02d8bf0d194f8d91f3ef7fdc11a.jpg" },
+    { type:"image", url:"images/K1737148150720192891420277626951_c942189987f75ca8555c79e5631b8441.JPG", thumb:"images/K1737148150720192891420277626951_c942189987f75ca8555c79e5631b8441.JPG", w:6960, h:4640, name:"c942189987f75ca8555c79e5631b8441.JPG" },
+  ]
+};
+
+// ─── On the Back of Silver Dragon ────────────────────────────────────
+const PAGE_ON_THE_BACK_OF_SILVER_DRAGON = {
+  purl:  "on-the-back-of-silver-dragon",
+  title: "On the back of silver dragon",
+  thumb: "images/O1710477658708808728770479282247_7J7A0991.JPG",
+  blocks: [
+    { type:"title", content:"On the Back of Silver Dragon" },
+    { type:"image", url:"images/P1710475496621276081495063025735_7J7A1010.JPG", thumb:"images/O1710477658708808728770479282247_7J7A0991.JPG", w:6960, h:4640, name:"7J7A1010.JPG" },
+    { type:"info", content:"April 2024  ·  Kinetic sculpture  ·  Fan, plastic film, 3-channel AI video, miniature city, salvaged materials" },
+    { type:"text", content:`A ring light sits at the center of the installation, mounted with long strips of plastic film. A fan pushes air through the ring; the film catches it and lifts, sending small figurines along its edge into erratic flight. They circle and tremble. Behind the kinetic structure, three monitors run AI-generated footage—images of farmland and city: Since zooming in, the animals are found just abstract color fields seem alien.
+
+The figurines on the fan ring are not arranged by chance. Smaller figures are placed at the edge where the wind catches. Larger figurines—men in suits—stand at the base: unmoved. The rotation continues regardless.
+
+On the floor, a miniature city made of salvaged domestic materials surrounds the structure. A toy fire truck has raised its ladder toward the ring. It does not reach.` },
+    { type:"video", url:"https://www.youtube.com/embed/dOrFS1S4DfQ" },
+    { type:"grid", cols:1, images:[
+      { url:"images/O1710477658708808728770479282247_7J7A0991.JPG", thumb:"images/O1710477658708808728770479282247_7J7A0991.JPG", w:6960, h:4640 },
+      { url:"images/S1710477947640161155283186243655_7J7A0980.JPG", thumb:"images/S1710477947640161155283186243655_7J7A0980.JPG", w:6960, h:4640 },
+      { url:"images/N1710486314363849971061126748231_7J7A1003.JPG", thumb:"images/N1710486314363849971061126748231_7J7A1003.JPG", w:5971, h:3981 },
+      { url:"images/L1710487601614544922661057615943_7J7A0974.JPG", thumb:"images/L1710487601614544922661057615943_7J7A0974.JPG", w:6960, h:4640 },
+      { url:"images/L1710510149235846914509383817287_7J7A0971.JPG", thumb:"images/L1710510149235846914509383817287_7J7A0971.JPG", w:6960, h:4640 },
+      { url:"images/K1710510850119887995103797467207_7J7A1006.JPG", thumb:"images/K1710510850119887995103797467207_7J7A1006.JPG", w:6960, h:4640 }
+    ] },
+  ]
+};
+
+// ─── Peace Talk ──────────────────────────────────────────────────────
+const PAGE_PEACE_TALK = {
+  purl:  "peace-talk",
+  title: "Peace Talk",
+  thumb: "images/J2589916721733512239014089742407_7J7A3512.JPG",
+  blocks: [
+    { type:"title", content:"Peace Talk" },
+    { type:"image", url:"images/A2589917574655617975122627811399_7J7A3525.JPG", thumb:"images/J2589916721733512239014089742407_7J7A3512.JPG", w:6960, h:4640, name:"7J7A3525.JPG" },
+    { type:"info", content:"September 2025  ·  REEF, Los Angeles  ·  3D-printed pigeons, AI-processed audio, architectural installation" },
+    { type:"text", content:`Visitors entering the space find what appears to be an empty white cube. The disturbance is overhead: a flock of 3D-printed pigeons has settled along the venue’s industrial ceiling pipes, perched at irregular intervals as birds do. They are cooing.
+
+The sounds are not bird calls. Audio played through the pigeons consists of algorithmically processed excerpts from political speeches and diplomatic addresses—language warped into something tonally avian: rhythmic, overlapping, occasionally melodic, and stripped of consequence. A parliament of sound without a floor.
+
+The room’s architecture enacts what it describes: authority elevated, indifferent to the people standing beneath it. Visitors tend to stop in the center and look up.` },
+    { type:"video", url:"https://www.youtube.com/embed/u7fBjWpzkf8" },
+    { type:"grid", cols:2, images:[
+      { url:"images/M2589918590204219465054572927047_7J7A3539.JPG", thumb:"images/M2589918590204219465054572927047_7J7A3539.JPG", w:6960, h:4640 },
+      { url:"images/Z2589916835033414339738155767879_7J7A3513.JPG", thumb:"images/Z2589916835033414339738155767879_7J7A3513.JPG", w:6960, h:4640 },
+      { url:"images/J2589916721733512239014089742407_7J7A3512.JPG", thumb:"images/J2589916721733512239014089742407_7J7A3512.JPG", w:6960, h:4640 },
+      { url:"images/X2589988032677137039482278533191_7J7A3510.JPG", thumb:"images/X2589988032677137039482278533191_7J7A3510.JPG", w:6960, h:4640 }
+    ] },
+    { type:"image", url:"images/R2589919339049795137293820778567_7J7A3550.JPG", thumb:"images/R2589919339049795137293820778567_7J7A3550.JPG", w:6960, h:4640, name:"7J7A3550.JPG" },
+  ]
+};
+
+// ─── PI ──────────────────────────────────────────────────────────────
+const PAGE_PI = {
+  purl:  "pi",
+  title: "PI",
+  thumb: "images/D2768265215738753002691423524935_WechatIMG318.jpeg",
+  blocks: [
+    { type:"title", content:"PI" },
+    { type:"image", url:"images/P2768264584823212193677339154503_WechatIMG314.jpeg", thumb:"images/D2768265215738753002691423524935_WechatIMG318.jpeg", w:6720, h:4480, name:"WechatIMG314.jpeg" },
+    { type:"info", content:"December 2025  ·  Skipping the Future, Los Angeles  ·  Site installation, tape, found materials  ·  Hu Di & Sining Zhu" },
+    { type:"text", content:`Hu Di and Sining Zhu worked in the same space in alternating shifts—never simultaneously present. Sining Zhu used tape. Hu Di used whatever materials she could find on-site. Each arrived to find the space already changed by the other; each made decisions in response to a presence that had already left.
+
+The work that accumulated was not planned together. It emerged from a sequence of responses—layer over layer, decision over decision—each made in the other's absence. The space itself became the medium of their exchange: a record of two people in conversation across time, without sharing the same moment.` },
+    { type:"grid", cols:2, images:[
+      { url:"images/F2768264949810490436094527428679_WechatIMG316.jpeg", thumb:"images/F2768264949810490436094527428679_WechatIMG316.jpeg", w:6720, h:4480 },
+      { url:"images/N2768264834407659510967572518983_WechatIMG316.jpeg", thumb:"images/N2768264834407659510967572518983_WechatIMG316.jpeg", w:6720, h:4480 }
+    ] },
+    { type:"image", url:"images/P2768265068201693901162429700167_WechatIMG317.jpeg", thumb:"images/P2768265068201693901162429700167_WechatIMG317.jpeg", w:6616, h:4410, name:"WechatIMG317.jpeg" },
+
+    { type:"image", url:"images/D2768265215738753002691423524935_WechatIMG318.jpeg", thumb:"images/D2768265215738753002691423524935_WechatIMG318.jpeg", w:6720, h:4480, name:"WechatIMG318.jpeg" },
+    { type:"image", url:"images/W2768265325865815122737446672455_WechatIMG319.jpeg", thumb:"images/W2768265325865815122737446672455_WechatIMG319.jpeg", w:6720, h:4480, name:"WechatIMG319.jpeg" },
+  ]
+};
+
+// ─── Make a Friend and Have Hotpot ───────────────────────────────────
+const PAGE_MAKE_A_FRIEND_AND_HAVE_HOTPOT = {
+  purl:  "make-a-friend-and-have-hotpot",
+  title: "Make a Friend and Have Hotpot",
+  thumb: "images/I2317813550971839291463749752903_7J7A3374.JPG",
+  blocks: [
+    { type:"title", content:"Make a Friend and Have Hotpot" },
+    { type:"image", url:"images/I2317813550971839291463749752903_7J7A3374.JPG", thumb:"images/I2317813550971839291463749752903_7J7A3374.JPG", w:6960, h:4640, name:"7J7A3374.JPG" },
+    { type:"info", content:"February 2025  ·  REEF, Los Angeles  ·  Interactive floor installation  ·  Cardboard, 3D body scan prints, collage, audience participation" },
+    { type:"text", content:`In the room, some cardboard blocks scattered on the carpet. Visitors can approach, sit, pick up a block, move it, stack it, trade pieces with someone else. 
+
+The blocks are covered in collaged imagery—scans of Hu Di's own body layered with photographs of lion dances, cats, costumes, astronauts, and steam rising from a hotpot of broth. Holding one, a viewer handles something that is simultaneously flesh, pattern, cultural symbol, and cardboard.
+    
+At the beginning of every showing day, the blocks will form some bodies surrounding a pot, in the posture of shared eating. 
+
+The invitation is deliberately ambiguous: is this a game, a sculpture, a social situation?
+
+People who arrive alone tend to rearrange blocks quietly. Groups negotiate. Children pick up pieces immediately and begin constructing. Occasionally someone places a block facing the pot, adjusts it, then sits down beside it.` },
+    { type:"grid", cols:1, images:[
+      { url:"images/J2317816608169181371421448624199_CIA_20250222_149743.jpg", thumb:"images/J2317816608169181371421448624199_CIA_20250222_149743.jpg", w:5476, h:3652 },
+      { url:"images/K2317814389210336744899484735559_7J7A3466.JPG", thumb:"images/K2317814389210336744899484735559_7J7A3466.JPG", w:6960, h:4640 },
+      { url:"images/G2317816286826899607401059473479_7J7A3470.JPG", thumb:"images/G2317816286826899607401059473479_7J7A3470.JPG", w:6960, h:4640 },
+      { url:"images/D2317817395420878205123982940231_CIA_20250222_149611.jpg", thumb:"images/D2317817395420878205123982940231_CIA_20250222_149611.jpg", w:5476, h:3652 }
+    ] },
+    { type:"grid", cols:1, images:[
+      { url:"images/K2317814389191890000825775183943_7J7A3428.JPG", thumb:"images/K2317814389191890000825775183943_7J7A3428.JPG", w:6960, h:4640 },
+      { url:"images/W2317818800269566626622305359943_7J7A3435.JPG", thumb:"images/W2317818800269566626622305359943_7J7A3435.JPG", w:6960, h:4640 }
+    ] },
+  ]
+};
+
+// ─── Moon and 10 thousand dollars ────────────────────────────────────
+const PAGE_MOON_AND_60_THOUSAND_DOLLARS = {
+  purl:  "moon-and-60-thousand-dollars",
+  title: "Moon and 60 thousand dollars",
+  thumb: "images/W2768302636029017678792030574663_7J7A3594-copy.jpg",
+  blocks: [
+    { type:"title", content:"Moon and 60 thousand dollars" },
+    { type:"image", url:"images/A2768298883075829370731173402695_7J7A3578-copy-2.jpg", thumb:"images/W2768302636029017678792030574663_7J7A3594-copy.jpg", w:6960, h:4640, name:"7J7A3578-copy-2.jpg" },
+    { type:"info", content:"December 2025  ·  REEF, Los Angeles  ·  Found objects, 3D-printed elements, ice" },
+    { type:"text", content:`The piece centers on a group of carefully balanced objects -- a circular mirror, a glass installation balanced on a spirit level, and a 3D-printed glitch form. —that explores the themes of “fragility,” “balance,” and “reflection.” It tells a story about women, industrialization, and capitalism.
+` },
+    { type:"image", url:"images/W2768299729135746311419758270535_7J7A3589-copy.jpg", thumb:"images/W2768299729135746311419758270535_7J7A3589-copy.jpg", w:6960, h:4640, name:"7J7A3589-copy.jpg" },
+    { type:"image", url:"images/L2768299550183882052363398043719_7J7A3587-copy.jpg", thumb:"images/L2768299550183882052363398043719_7J7A3587-copy.jpg", w:6960, h:4640, name:"7J7A3587-copy.jpg" },
+    { type:"grid", cols:2, images:[
+      { url:"images/D2768299848541520700541685880903_7J7A3619-copy.jpg", thumb:"images/D2768299848541520700541685880903_7J7A3619-copy.jpg", w:4640, h:6960 },
+      { url:"images/C2768302487422047420987882756167_7J7A3597-copy.jpg", thumb:"images/C2768302487422047420987882756167_7J7A3597-copy.jpg", w:4640, h:6960 }
+    ] },
+    { type:"image", url:"images/W2768302636029017678792030574663_7J7A3594-copy.jpg", thumb:"images/W2768302636029017678792030574663_7J7A3594-copy.jpg", w:6960, h:4640, name:"7J7A3594-copy.jpg" },
+  ]
+};
+
+// ─── Find Hu Di ──────────────────────────────────────────────────────
+const PAGE_FIND_HU_DI = {
+  purl:  "find-hu-di",
+  title: "Find Hu Di",
+  thumb: "images/M1600271013128971073811510089799_7J7A0866.JPG",
+  blocks: [
+    { type:"title", content:"Find Hu Di" },
+    { type:"image", url:"images/M1600271013128971073811510089799_7J7A0866.JPG", thumb:"images/M1600271013128971073811510089799_7J7A0866.JPG", w:6960, h:4640 },
+    { type:"info", content:"2024  ·  Los Angeles  ·  Social intervention, public GPS tracking, QR codes, real-time location sharing, 100-day durational" },
+    { type:"text", content:`For 100 days, Hu Di's location was visible to anyone with a phone. A QR code—distributed on flyers and posted online—led to a live map with a blue dot marking her position in real time. The dot moved when she walked, held still when she sat. There was no event attached to it. No performance scheduled. If someone wanted to find her, they could try.
+
+Some people came. Most arrived to find her doing nothing in particular: sitting in a parking lot, reading in a coffee shop, walking somewhere. There was no script for the encounter. The finder had traveled toward a signal; the signal was just a person.
+
+The project ran alongside her regular life. The map did not distinguish between a gallery opening and a trip to the grocery store. Her coordinates were equally available at both.
+
+In its final gesture, the project folded into Echo Chamber Realms: the blue dot that had marked Hu Di's location for 100 days was placed beneath the feet of Charlie, the puppet who talks without listening. The search became an image. The tracker became a prop.` },
+    { type:"grid", cols:2, images:[
+      { url:"images/M1600271013128971073811510089799_7J7A0866.JPG", thumb:"images/M1600271013128971073811510089799_7J7A0866.JPG", w:6960, h:4640 },
+      { url:"images/W1600271248767679871377322432583_7J7A0867.JPG", thumb:"images/W1600271248767679871377322432583_7J7A0867.JPG", w:6960, h:4640 },
+      { url:"images/W1607973067184864090971873105991_7J7A0875.JPG", thumb:"images/W1607973067184864090971873105991_7J7A0875.JPG", w:6960, h:4640 },
+      { url:"images/T1600282826866597735177394214983_7J7A0868.JPG", thumb:"images/T1600282826866597735177394214983_7J7A0868.JPG", w:6960, h:4640 }
+    ] },
+    { type:"grid", cols:2, images:[
+      { url:"images/G1600279355705871897103647529031_7J7A0845-copy.jpg", thumb:"images/G1600279355705871897103647529031_7J7A0845-copy.jpg", w:6960, h:4640 },
+      { url:"images/J1864814025879514792814427658311_IMG_4666.jpg", thumb:"images/J1864814025879514792814427658311_IMG_4666.jpg", w:3024, h:2016 }
+    ] },
+  ]
+};
+
+// ─── Too on the Nose ─────────────────────────────────────────────────
+const PAGE_TOO_ON_THE_NOSE_ = {
+  purl:  "too-on-the-nose-",
+  title: "Too on the nose",
+  thumb: "images/A1474032715057464584941711808583_IMG_2987.JPG",
+  blocks: [
+    { type:"title", content:"Too on the nose" },
+    { type:"image", url:"images/T1474037251702128120479159834695_IMG_3000_1.jpg", thumb:"images/A1474032715057464584941711808583_IMG_2987.JPG", w:6000, h:4000, name:"IMG_3000_1.jpg" },
+    { type:"info", content:"November 2023  ·  California Institute of the Arts, Valencia  ·  Performance for camera, photography, installation" },
+    { type:"text", content:`A table in a dim room holds clusters of photographs, arranged in groups. To see them clearly, visitors must use a magnifier.
+
+Through the lens, a small strip of paper becomes visible in every image: adhered to the nose of the figure or object photographed. The text on each strip reads like an obvious fact—something too self-evident to need saying. But read in sequence, the obvious statements begin to accumulate strangely. What seemed beyond question starts to feel worth questioning.` },
+    { type:"grid", cols:2, images:[
+      { url:"images/U1474053190666685241438362294343_IMG_3026_1.jpg", thumb:"images/U1474053190666685241438362294343_IMG_3026_1.jpg", w:5839, h:3893 },
+      { url:"images/V1474061562684589606370944112711_IMG_3001_1.jpg", thumb:"images/V1474061562684589606370944112711_IMG_3001_1.jpg", w:6000, h:4000 },
+      { url:"images/A1474032715057464584941711808583_IMG_2987.JPG", thumb:"images/A1474032715057464584941711808583_IMG_2987.JPG", w:6000, h:4000 },
+      { url:"images/B1474033298620213356743377180743_IMG_2963.JPG", thumb:"images/B1474033298620213356743377180743_IMG_2963.JPG", w:6000, h:4000 }
+    ] },
+  { type:"text", content:"“You won’t want your piece to be too on the nose.”  —  Professor’s critique note" },
+  { type:"text", content:`So, I decided to make a joke.
+
+This project was originally intended to be just a casual bit of fun in academic circles, a playful response to the norms. However, funny things happen in the special context of the academy.
+
+When I showed this work in the MFA group show in the school. Professors were not so impressed, "This is exactly What I Meant: it is TOO on the nose". 
+
+In fact, in a way, I agree with them. The overt nature of this piece somewhat diminishes its conceptually sublime charm. 
+
+But it was a hit with the student body. Until several months after the show, too on the nose was still a meme among the students, and I was contacted by many students who loved the work.
+
+The aspect of this incident that intrigued me the most is that, as a professional, I fully understand the professors' perspectives, as I can vividly feel the drawbacks they refer to as "too on the nose." The fear of not being understood is a common occurrence in the entire artistic creation process. I became overly fixated on the goal of "making people understand " and this sentiment gradually affected the purity of my exploration of personal concerns, placing a fictional audience above the authentic self. I realized the need to adjust my mindset.
+
+Interestingly, contrasting views from my peers transformed into a kind of palindrome, reigniting discussions on "norms" from their perspectives. I see this as a collective projection, reflecting a shift in collective awareness under individual viewpoints, a collective individualization that embodies the impulse to "break free" in contemporary society. ` },
+  ]
+};
+
+// ─── The Wheels Never Go Backward ────────────────────────────────────
+const PAGE_THE_WHEELS_NEVER_GOES_BACKWARD = {
+  purl:  "the-wheels-never-goes-backward",
+  title: "The wheels never goes backward",
+  thumb: "images/X1473981299978787692426385315911_Copy-of-_DSC3966.jpg",
+  blocks: [
+    { type:"title", content:"The Wheels Never Go Backward" },
+    { type:"image", url:"images/G1473981091309218730623937435719_Copy-of-_DSC3965.jpg", thumb:"images/X1473981299978787692426385315911_Copy-of-_DSC3966.jpg", w:7127, h:4757, name:"Copy-of-_DSC3965.jpg" },
+    { type:"info", content:"2023  ·  California Institute of the Arts, Valencia; Cervera Yoon Gallery, Los Angeles  ·  Toy train, farm animal figurines, miniature city, found materials, light" },
+    { type:"text", content:`A toy train moves along a circular track laid through a miniature city. It pushes a small cluster of farm animal figurines as it goes. Around the track, tiny human figures have been arranged in formations—rows, clusters, patterns—suggesting ceremony or governance, though what they are doing remains unclear. The sense of purpose accumulates, then disperses.
+
+When the gallery lights dim, the train's headlight throws the city's silhouette onto the wall in slow revolution. Buildings, figures, and animals rotate in shadow. No one is operating anything.
+
+The work has been shown twice. At CalArts, it occupied a corner of the gallery. At Cervera Yoon Gallery, it was installed in the bathroom—placed where visitors would encounter it while sitting on the toilet, alone, without the expectation of encountering art. There, an immersive, absurd experience unfolded.` },
+    { type:"video", url:"https://www.youtube.com/embed/QcO-RzPfh78" },
+    { type:"grid", cols:1, images:[
+      { url:"images/X1473981299978787692426385315911_Copy-of-_DSC3966.jpg", thumb:"images/X1473981299978787692426385315911_Copy-of-_DSC3966.jpg", w:6000, h:4004 },
+      { url:"images/K1473981648585357197389491755079_Copy-of-_DSC3972.jpg", thumb:"images/K1473981648585357197389491755079_Copy-of-_DSC3972.jpg", w:6000, h:4005 },
+      { url:"images/K1473981300163255133163480832071_Copy-of-_DSC3967.jpg", thumb:"images/K1473981300163255133163480832071_Copy-of-_DSC3967.jpg", w:6000, h:4004 },
+      { url:"images/E1473981300181701877237190383687_Copy-of-_DSC3968.jpg", thumb:"images/E1473981300181701877237190383687_Copy-of-_DSC3968.jpg", w:6000, h:4004 },
+      { url:"images/U1473981300200148621310899935303_Copy-of-_DSC3969.jpg", thumb:"images/U1473981300200148621310899935303_Copy-of-_DSC3969.jpg", w:7360, h:4912 },
+      { url:"images/S1473981300218595365384609486919_Copy-of-_DSC3970.jpg", thumb:"images/S1473981300218595365384609486919_Copy-of-_DSC3970.jpg", w:6000, h:4005 },
+      { url:"images/P1473981541944729707274573862983_Copy-of-_DSC3971.jpg", thumb:"images/P1473981541944729707274573862983_Copy-of-_DSC3971.jpg", w:6000, h:4004 },
+      { url:"images/C1473981732610276453136499365959_Copy-of-_DSC3974.jpg", thumb:"images/C1473981732610276453136499365959_Copy-of-_DSC3974.jpg", w:5400, h:3604 }
+    ] },
+    { type:"grid", cols:1, images:[
+      { url:"images/P1473984568483583136726997948487_Copy-of-_DSC3976.jpg", thumb:"images/P1473984568483583136726997948487_Copy-of-_DSC3976.jpg", w:7193, h:4801 },
+      { url:"images/A1473985180269850341304277293127_Copy-of-_DSC3976.jpg", thumb:"images/A1473985180269850341304277293127_Copy-of-_DSC3976.jpg", w:7193, h:4801 },
+      { url:"images/C1473985180288297085377986844743_Copy-of-_DSC3977.jpg", thumb:"images/C1473985180288297085377986844743_Copy-of-_DSC3977.jpg", w:7193, h:4801 },
+      { url:"images/A1473985180306743829451696396359_Copy-of-_DSC3978.jpg", thumb:"images/A1473985180306743829451696396359_Copy-of-_DSC3978.jpg", w:7193, h:4801 },
+      { url:"images/H1473985180325190573525405947975_Copy-of-_DSC3980.jpg", thumb:"images/H1473985180325190573525405947975_Copy-of-_DSC3980.jpg", w:7193, h:4801 },
+      { url:"images/C1473985180343637317599115499591_Copy-of-_DSC3981.jpg", thumb:"images/C1473985180343637317599115499591_Copy-of-_DSC3981.jpg", w:7193, h:4801 },
+      { url:"images/L1473985180362084061672825051207_Copy-of-_DSC3982.jpg", thumb:"images/L1473985180362084061672825051207_Copy-of-_DSC3982.jpg", w:7193, h:4801 }
+    ] },
+  ]
+};
+
+// ─── Beloved Charlie ─────────────────────────────────────────────────
+const PAGE_BELOVED_CHALIE = {
+  purl:  "beloved-chalie",
+  title: "Beloved Chalie",
+  thumb: "images/W1473958394213949509507114489927_IMG_2650.JPG",
+  blocks: [
+    { type:"title", content:"Beloved Charlie" },
+    { type:"image", url:"images/L1473969774360856718329987881031_IMG_2915.jpg", thumb:"images/W1473958394213949509507114489927_IMG_2650.JPG", w:5472, h:3072 },
+    { type:"info", content:"2023  ·  HomeLA Venice; Human Resource, Los Angeles; CalArts, Los Angeles  ·  Puppet, interactive performance" },
+    { type:"text", content:`Charlie first appeared in Matrilineal Ambivalences, an interactive theater production, as the family dog. The puppet moved through the domestic performance space, receiving affection from actors and audience members who tended to reach down without deciding to. Charlie accepted this. Charlie was difficult not to touch.
+
+Charlie has that sugary but biting vibe. From the vantage point of a dog—excluded from conversation, present for everything—Charlie observed the household's dynamics and sought affection with an attitude that is overly eager to appear well-behaved and loyal, and showed off his intelligence through a critical take on reality.
+
+After the production, Charlie didn't stop working. The puppet appeared at parties, at gallery events, in hallways and public area—situations with no defined stage. Each context produced different encounters, and the character adapted to all of them.
+
+Charlie later became the central puppet in Echo Chamber Realms, now mechanized and running an AI personality modeled on the original character. The new Charlie holds the same quality: perceptive, affectionate, and slightly too honest about what it notices.` },
+    { type:"grid", cols:1, images:[
+      { url:"images/X1473969774139495789445473261639_IMG_2914-1.jpg", thumb:"images/X1473969774139495789445473261639_IMG_2914-1.jpg", w:5472, h:3072 },
+      { url:"images/N1473969774379303462403697432647_IMG_2983.jpg", thumb:"images/N1473969774379303462403697432647_IMG_2983.jpg", w:5472, h:3072 },
+      { url:"images/G1473969774416196950551116535879_IMG_3093.jpg", thumb:"images/G1473969774416196950551116535879_IMG_3093.jpg", w:5472, h:3072 }
+    ] },
+    { type:"grid", cols:1, images:[
+      { url:"images/R1473976144150712578754127747143_Hu-Di_Beloved-CharliePuppet_flexible-size.JPG", thumb:"images/R1473976144150712578754127747143_Hu-Di_Beloved-CharliePuppet_flexible-size.JPG", w:6000, h:4000 },
+      { url:"images/O1473976862171778903824714848327_DSCF9651-copy.jpg", thumb:"images/O1473976862171778903824714848327_DSCF9651-copy.jpg", w:6000, h:4000 }
+    ] },
+    { type:"grid", cols:1, images:[
+      { url:"images/G1474521957556198917487911131207_IMG_2649.JPG", thumb:"images/G1474521957556198917487911131207_IMG_2649.JPG", w:4032, h:2688 },
+      { url:"images/X1473958394343076718023081351239_IMG_2657.JPG", thumb:"images/X1473958394343076718023081351239_IMG_2657.JPG", w:4032, h:2688 },
+      { url:"images/J1473958394140162533212276283463_IMG_2645.JPG", thumb:"images/J1473958394140162533212276283463_IMG_2645.JPG", w:4032, h:2688 },
+      { url:"images/L1473960789376093528102715414599_Hu-Di_Beloved-Charlie_flexible-size.JPG", thumb:"images/L1473960789376093528102715414599_Hu-Di_Beloved-Charlie_flexible-size.JPG", w:4032, h:2688 },
+      { url:"images/W1473958394232396253580824041543_IMG_2651.JPG", thumb:"images/W1473958394232396253580824041543_IMG_2651.JPG", w:4032, h:2688 },
+      { url:"images/W1473958394213949509507114489927_IMG_2650.JPG", thumb:"images/W1473958394213949509507114489927_IMG_2650.JPG", w:4032, h:2688 },
+      { url:"images/R1473962289188620441057809553479_Hu-Di_Beloved-Charliekennel_4-4-6-.jpg", thumb:"images/R1473962289188620441057809553479_Hu-Di_Beloved-Charliekennel_4-4-6-.jpg", w:989, h:659 },
+      { url:"images/K1473968216957594807253673596999_IMG_2655.JPG", thumb:"images/K1473968216957594807253673596999_IMG_2655.JPG", w:4032, h:2688 }
+    ] },
+  ]
+};
+
+// ─── Three Rooms ─────────────────────────────────────────────────────
+const PAGE_THREE_ROOM_1 = {
+  purl:  "three-room-1",
+  title: "Three room - 1",
+  thumb: "images/W1473874045498995036675744094279_0U8A0319.JPG",
+  blocks: [
+    { type:"title", content:"Three Rooms  —  I heard about ART WORLD but I don’t know where is it" },
+    { type:"image", url:"images/N1627732079575411960002318850119_0U8A0403.JPG", thumb:"images/W1473874045498995036675744094279_0U8A0319.JPG", w:6720, h:4480 },
+    { type:"info", content:"2023  ·  California Institute of the Arts, Los Angeles  ·  Three-room installation, live performance, found materials, sound, participatory exchange" },
+    { type:"text", content:`Visitors entering the gallery are each handed a block of ice by a performer at the door. Inside the ice, sealed and slowly dissolving, is a fragment of rubber glove.
+
+The first room: a performer wearing rubber gloves moves between four hanging mechanisms mounted above four rice cookers on the floor. A large "cow" sculpture holds rice in its belly; the performer scoops it out and loads it onto the hangers. The rice falls, one grain at a time, into the cookers below. The sound of it landing fills the room. The performer cycles between the four stations without pause.
+
+The second room: three chairs face a camera on a tripod. A performer helps visitors sit, introduces the camera as an artwork, and invites them to critique it. Whenever anyone speaks, the camera turns toward that person with a mechanical click.
+
+The third room: a table covered in sorted specimen bags—objects organized into categories. Visitors may trade their ice—still melting, the rubber fragment now more or less exposed—for any bag they choose. A performer records the exchange: who took what, at what time.
+
+The three rooms stage production, criticism, and exchange in sequence. The ice each visitor carries is both timestamp and currency; it marks time as it dissolves.` },
+    { type:"grid", cols:2, images:[
+      { url:"images/Q1627733319288847433652735203399_0U8A0379-.jpg", thumb:"images/Q1627733319288847433652735203399_0U8A0379-.jpg", w:6251, h:4165 },
+      { url:"images/M1627731744268944932183799126087_IMG_1879-copy.jpg", thumb:"images/M1627731744268944932183799126087_IMG_1879-copy.jpg", w:3538, h:2359 },
+      { url:"images/N1627732079575411960002318850119_0U8A0403.JPG", thumb:"images/N1627732079575411960002318850119_0U8A0403.JPG", w:6720, h:4480 }
+    ] },
+    { type:"image", url:"images/E1659580338780465027301033007175_CIA_Art_2023011919915.jpg", thumb:"images/W1473874045498995036675744094279_0U8A0319.JPG", w:5472, h:3648, name:"CIA_Art_2023011919915.jpg" },
+    { type:"video", url:"https://www.youtube.com/embed/X2UgN7LVVvM?si=huEJXgXtVj3HR82T" },
+    { type:"image", url:"images/W1473874045498995036675744094279_0U8A0319.JPG", thumb:"images/W1473874045498995036675744094279_0U8A0319.JPG", w:6720, h:4480, name:"0U8A0319.JPG" },
+    { type:"grid", cols:2, images:[
+      { url:"images/H1473894783218002236511413491783_WX20231108-1024552x.png", thumb:"images/H1473894783218002236511413491783_WX20231108-1024552x.png", w:3456, h:1946 },
+      { url:"images/T1473874045923270150371063781447_WX20230125-2111582x.png", thumb:"images/T1473874045923270150371063781447_WX20230125-2111582x.png", w:914, h:508 }
+    ] },
+    { type:"grid", cols:2, images:[
+      { url:"images/U1473874045517441780749453645895_0U8A0320.JPG", thumb:"images/U1473874045517441780749453645895_0U8A0320.JPG", w:4480, h:6720 },
+      { url:"images/Z1473874045535888524823163197511_0U8A0322.JPG", thumb:"images/Z1473874045535888524823163197511_0U8A0322.JPG", w:4480, h:6720 },
+      { url:"images/D1473874045462101548528324991047_0U8A0297.JPG", thumb:"images/D1473874045462101548528324991047_0U8A0297.JPG", w:4480, h:6720 },
+      { url:"images/S1473874045554335268896872749127_0U8A0327.JPG", thumb:"images/S1473874045554335268896872749127_0U8A0327.JPG", w:4480, h:6720 },
+      { url:"images/C1600561078292075333002352023623_0U8A0401.JPG", thumb:"images/C1600561078292075333002352023623_0U8A0401.JPG", w:6720, h:4480 }
+    ] },
+    { type:"grid", cols:2, images:[
+      { url:"images/T1473874045831036430002516023367_WechatIMG392-.jpg", thumb:"images/T1473874045831036430002516023367_WechatIMG392-.jpg", w:3432, h:1910 },
+      { url:"images/W1473874045849483174076225574983_WechatIMG402.png", thumb:"images/W1473874045849483174076225574983_WechatIMG402.png", w:3414, h:1932 },
+      { url:"images/L1473913689654938262905055762503_WechatIMG382.jpeg", thumb:"images/L1473913689654938262905055762503_WechatIMG382.jpeg", w:4032, h:3024 }
+    ] },
+    { type:"video", url:"https://www.youtube.com/embed/tXgRVHGabvo" },
+    { type:"image", url:"images/A1473937655295903944880324237383_new-category2.jpg", thumb:"images/A1473937655295903944880324237383_new-category2.jpg", w:1224, h:792, name:"new-category2.jpg" },
+    { type:"grid", cols:2, images:[
+      { url:"images/M1473874045812589685928806471751_WechatIMG389.jpg", thumb:"images/M1473874045812589685928806471751_WechatIMG389.jpg", w:3024, h:4032 },
+      { url:"images/Y1473933101385087956350735898695_WechatIMG384.jpeg", thumb:"images/Y1473933101385087956350735898695_WechatIMG384.jpeg", w:2920, h:3893 }
+    ] },
+    { type:"image", url:"images/T1473936380256953570076116539463_WechatIMG385.jpeg", thumb:"images/T1473936380256953570076116539463_WechatIMG385.jpeg", w:1276, h:1702, name:"WechatIMG385.jpeg" },
+    { type:"grid", cols:2, images:[
+      { url:"images/A1473938842971074386596095481927_0U8A0349.JPG", thumb:"images/A1473938842971074386596095481927_0U8A0349.JPG", w:6720, h:4480 },
+      { url:"images/H1473938842860393922153838172231_0U8A0345.JPG", thumb:"images/H1473938842860393922153838172231_0U8A0345.JPG", w:5026, h:3351 },
+      { url:"images/Q1473874045628122245191710955591_0U8A0360.JPG", thumb:"images/Q1473874045628122245191710955591_0U8A0360.JPG", w:6720, h:4480 }
+    ] },
+    { type:"grid", cols:2, images:[
+      { url:"images/M1473953045949440218896814463047_new-category5.jpg", thumb:"images/M1473953045949440218896814463047_new-category5.jpg", w:1224, h:792 },
+      { url:"images/B1473953045967886962970524014663_new-category6.jpg", thumb:"images/B1473953045967886962970524014663_new-category6.jpg", w:1224, h:792 },
+      { url:"images/O1473953045986333707044233566279_new-category7.jpg", thumb:"images/O1473953045986333707044233566279_new-category7.jpg", w:1224, h:792 },
+      { url:"images/Z1473953046004780451117943117895_new-category8.jpg", thumb:"images/Z1473953046004780451117943117895_new-category8.jpg", w:1224, h:792 },
+      { url:"images/J1473953046023227195191652669511_new-category9.jpg", thumb:"images/J1473953046023227195191652669511_new-category9.jpg", w:1224, h:792 },
+      { url:"images/Z1473953046041673939265362221127_new-category10.jpg", thumb:"images/Z1473953046041673939265362221127_new-category10.jpg", w:1224, h:792 },
+      { url:"images/N1473953046060120683339071772743_new-category11.jpg", thumb:"images/N1473953046060120683339071772743_new-category11.jpg", w:1224, h:792 },
+      { url:"images/C1473953046078567427412781324359_new-category12.jpg", thumb:"images/C1473953046078567427412781324359_new-category12.jpg", w:1224, h:792 },
+      { url:"images/F1473953046097014171486490875975_new-category13.jpg", thumb:"images/F1473953046097014171486490875975_new-category13.jpg", w:1224, h:792 },
+      { url:"images/W1473953046115460915560200427591_new-category14.jpg", thumb:"images/W1473953046115460915560200427591_new-category14.jpg", w:1224, h:792 },
+      { url:"images/Z1473953046133907659633909979207_new-category15.jpg", thumb:"images/Z1473953046133907659633909979207_new-category15.jpg", w:1224, h:792 }
+    ] },
+  ]
+};
+
+// ─── Abyss ───────────────────────────────────────────────────────────
+const PAGE_ABYSS = {
+  purl:  "abyss",
+  title: "Abyss",
+  thumb: "images/V1473997140456178203850291697735_IMG_2226-copy.jpg",
+  blocks: [
+    { type:"title", content:"Abyss" },
+    { type:"image", url:"images/B1473996453960597500749328308295_abyss-poster-.jpg", thumb:"images/V1473997140456178203850291697735_IMG_2226-copy.jpg", w:3508, h:4961, name:"abyss-poster-.jpg" },
+    { type:"info", content:"Curated by Hu Di  ·  California Institute of the Arts, Los Angeles  ·  Participating artists: Christopher Olsen, Green Yoon, Hu Di, Zoe Ze Zhou" },
+    { type:"grid", cols:1, images:[
+      { url:"images/D1473997265875591161001533134919_IMG_2195-copy.jpg", thumb:"images/D1473997265875591161001533134919_IMG_2195-copy.jpg", w:4032, h:3024 },
+      { url:"images/A1473997207934368025479831509063_IMG_2204-copy.jpg", thumb:"images/A1473997207934368025479831509063_IMG_2204-copy.jpg", w:4032, h:3024 },
+      { url:"images/V1473997140456178203850291697735_IMG_2226-copy.jpg", thumb:"images/V1473997140456178203850291697735_IMG_2226-copy.jpg", w:4032, h:3024 }
+    ] },
+  ]
+};
+
+// ─── Late for the Party ──────────────────────────────────────────────
+const PAGE_LATE_TO_THE_PARTY = {
+  purl:  "late-to-the-party",
+  title: "Late to the Party",
+  thumb: "images/A1515596905983859815414744635463_IMG_4065-copy.jpg",
+  blocks: [
+    { type:"title", content:"Late to the Party" },
+    { type:"image", url:"images/G1515571686628379907843510130759_MFA2-groupshow-poster-copy.jpg", thumb:"images/A1515596905983859815414744635463_IMG_4065-copy.jpg", w:2480, h:3508, name:"MFA2-groupshow-poster-copy.jpg" },
+    { type:"info", content:"Curated by Hu Di  ·  California Institute of the Arts, Los Angeles" },
+    { type:"grid", cols:1, images:[
+      { url:"images/A1515596905983859815414744635463_IMG_4065-copy.jpg", thumb:"images/A1515596905983859815414744635463_IMG_4065-copy.jpg", w:4032, h:3024 },
+      { url:"images/K1515596906186774000225549703239_IMG_4067-copy.jpg", thumb:"images/K1515596906186774000225549703239_IMG_4067-copy.jpg", w:4032, h:3024 },
+      { url:"images/R1515596906205220744299259254855_IMG_4060-copy.jpg", thumb:"images/R1515596906205220744299259254855_IMG_4060-copy.jpg", w:4032, h:3024 },
+      { url:"images/N1737350315284664773153004607559_IMG_2959.JPG", thumb:"images/N1737350315284664773153004607559_IMG_2959.JPG", w:6000, h:4000 },
+      { url:"images/B1515596906223667488372968806471_IMG_4072-copy.jpg", thumb:"images/B1515596906223667488372968806471_IMG_4072-copy.jpg", w:2855, h:2142 },
+      { url:"images/I1515596906242114232446678358087_IMG_4059.jpg", thumb:"images/I1515596906242114232446678358087_IMG_4059.jpg", w:4032, h:3024 }
+    ] },
+  ]
+};
+
+// ─── Workshops Provide ───────────────────────────────────────────────
+const PAGE_WORKSHOP = {
+  purl:  "workshop",
+  title: "Workshop",
+  thumb: "images/D2782794795331723809508206467143_View-recent-photos.png",
+  blocks: [
+    { type:"title", content:"Workshops" },
+    { type:"image", url:"images/D2782794795331723809508206467143_View-recent-photos.png", thumb:"images/D2782794795331723809508206467143_View-recent-photos.png", w:2143, h:1206, name:"View-recent-photos.png" },
+
+    { type:"text", content:"I offer workshops for art, design, and media studies students at the intersection of personal narrative, game logic, and AI collaboration. Participants build small interactive systems that carry emotional, political, or poetic meaning — no prior programming experience required." },
+
+    { type:"heading", content:"What Students Do" },
+    { type:"icon-cards", items:[
+      {
+        icon: `<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/>`,
+        label: "Translate Experience",
+        desc: "Turn personal, cultural, or political experiences into small interactive systems"
+      },
+      {
+        icon: `<circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><line x1="12" y1="7" x2="5" y2="17"/><line x1="12" y1="7" x2="19" y2="17"/><line x1="5" y1="17" x2="19" y2="17"/>`,
+        label: "AI as Collaborator",
+        desc: "Explore AI not as a tool, but as a narrative partner and co-author"
+      },
+      {
+        icon: `<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="15" cy="12" r="1"/><circle cx="18" cy="12" r="1"/>`,
+        label: "Prototype & Play",
+        desc: "Build playable works using simple game logic and AI-assisted workflows"
+      },
+      {
+        icon: `<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>`,
+        label: "Reflect & Question",
+        desc: "Examine authorship, agency, and embodiment in computational systems"
+      },
+    ]},
+
+    { type:"heading", content:"Workshop Formats" },
+    { type:"format-cards", items:[
+      {
+        time: "2–3 hours",
+        name: "Guest Workshop",
+        desc: "Introduction + hands-on prototyping + group discussion. Ideal for a single class visit."
+      },
+      {
+        time: "1–2 days",
+        name: "Short Intensive",
+        desc: "Deeper experimentation with structured critique and iteration cycles."
+      },
+      {
+        time: "Flexible",
+        name: "Course Module / Co-teaching",
+        desc: "Custom-designed for existing syllabi. Can be integrated across multiple sessions."
+      },
+    ]},
+
+    { type:"heading", content:"Example Topics" },
+    { type:"tag-cloud", items:[
+      "Small Games as Personal Narrative",
+      "AI as Character, Oracle, or Adversary",
+      "Misinterpretation, Glitches & Productive Failure",
+      "Playable Systems for Memory, Desire, and Power",
+    ]},
+
+    { type:"heading", content:"Who It's For" },
+    { type:"audience-tags", items:[
+      "Art & Design", "Media Arts", "New Media", "Game Studies",
+      "Interdisciplinary Programs", "MFA / MA", "Undergraduate",
+      "Art + Technology", "Art + Humanities",
+    ]},
+    { type:"text", content:"No prior programming experience required." },
+
+    { type:"divider" },
+
+    { type:"heading", content:"Get in Touch" },
+    { type:"text", content:"To inquire about workshops, guest visits, or co-teaching opportunities:" },
+    { type:"contact-links", items:[
+      {
+        icon: `<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/>`,
+        label: "@hudi_la_",
+        href: "https://www.instagram.com/hudi_la_"
+      },
+      {
+        icon: `<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>`,
+        label: "hudi.creates@gmail.com",
+        href: "mailto:hudi.creates@gmail.com"
+      },
+    ]},
+  ]
+};
+
+// ─── About Artist ────────────────────────────────────────────────────
+const PAGE_INFORMATION = {
+  purl:  "information",
+  title: "Information",
+  thumb: "images/Z1759502178866473915672877226055_IMG_4916.JPG",
+  blocks: [
+    { type:"title", content:"About" },
+    { type:"image", url:"images/Z1759502178866473915672877226055_IMG_4916.JPG", thumb:"images/Z1759502178866473915672877226055_IMG_4916.JPG", w:851, h:1080, name:"IMG_4916.JPG" },
+    { type:"text", content:`Hu, Di (born in 1993, in Chengdu, China) is a multidisciplinary artist. She holds an MFA from the California Institute of the Arts (CalArts), an MS in Computer Science from Zhejiang University, and a BS in Physics from Beijing Normal University.
+Hu Di's practice spans sculpture, performance, and interactive installations, often incorporating collected materials and technology to explore themes of absurdities woven into the fabric of daily existence, the whimsical nature of our yearnings for love and intimacy, and the surreal aspects embedded within the structural intricacies of our societal systems with playful participatory experiences.
+Recent solo exhibitions include Echo Chamber Realms where she creates a world where puppets embody conflicting desires for validation and affection, inviting audiences to reflect on their own social interactions, and On the Back of Silver Dragon which uses movement and found materials to construct a metaphorical society, commenting on social hierarchies and the fragility of human existence within modern life.
+Hu Di's works have been exhibited at the Torrance Art Museum, Łódź, and CalArts. Her approach challenges conventional notions of viewer participation and interaction, offering a space for both humor and critical reflection. She has been awarded the Foundation for Contemporary Arts Emergency Grant and several CalArts Project Grants.` },
+    { type:"contact-links", items:[
+      {
+        icon: `<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>`,
+        label: "Artist CV →",
+        href: "https://docs.google.com/document/d/19Z4RzXR9QZ3ezmRWHhUaQN0xwKu3dfh5RC8ewvt1h2w/edit?tab=t.0"
+      },
+      {
+        icon: `<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/>`,
+        label: "@hudi_la_",
+        href: "https://www.instagram.com/hudi_la_"
+      },
+      {
+        icon: `<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>`,
+        label: "hudi.creates@gmail.com",
+        href: "mailto:hudi.creates@gmail.com"
+      },
+    ]},
+  ]
+};
+
+// ─── NAV 显示名称（侧边栏和移动端菜单里显示的文字）─────────────────────
+const NAV_NAMES = {
+  "the-garden-of-digital-delights": "The Garden of Digital Delights",
+  "echo-chamber-realms-1": "Echo Chamber Realms",
+  "on-the-back-of-silver-dragon": "On the Back of Silver Dragon",
+  "peace-talk": "Peace Talk",
+  "pi": "PI",
+  "make-a-friend-and-have-hotpot": "Make a Friend and Have Hotpot",
+  "moon-and-60-thousand-dollars": "Moon and 10 thousand dollars",
+  "find-hu-di": "Find Hu Di",
+  "too-on-the-nose-": "Too on the Nose",
+  "the-wheels-never-goes-backward": "The Wheels Never Go Backward",
+  "beloved-chalie": "Beloved Charlie",
+  "three-room-1": "Three Rooms",
+  "abyss": "Abyss",
+  "late-to-the-party": "Late for the Party",
+  "workshop": "Workshops Provide",
+  "information": "About Artist"
+};
+
+// ─── 首页画廊顺序（调整顺序即可改变画廊排列）─────────────────────────
+const WORKS     = [
+  "the-garden-of-digital-delights",
+  "echo-chamber-realms-1",
+  "on-the-back-of-silver-dragon",
+  "peace-talk",
+  "pi",
+  "make-a-friend-and-have-hotpot",
+  "moon-and-60-thousand-dollars",
+  "find-hu-di",
+  "too-on-the-nose-",
+  "the-wheels-never-goes-backward",
+  "beloved-chalie",
+  "three-room-1",
+];
+const CURATIONS = [
+  "abyss",
+  "late-to-the-party",
+];
+const EXTRAS    = [
+  "workshop",
+  "information",
+];
+const EXTRA_LABELS = {'workshop':'Workshops Provide →','information':'About Artist →'};
+
+// ─── 画廊所有页面（WORKS + CURATIONS + 特殊页面，顺序按上方定义）───────
+const PAGES = [
+  PAGE_THE_GARDEN_OF_DIGITAL_DELIGHTS,
+  PAGE_ECHO_CHAMBER_REALMS_1,
+  PAGE_ON_THE_BACK_OF_SILVER_DRAGON,
+  PAGE_PEACE_TALK,
+  PAGE_PI,
+  PAGE_MAKE_A_FRIEND_AND_HAVE_HOTPOT,
+  PAGE_MOON_AND_60_THOUSAND_DOLLARS,
+  PAGE_FIND_HU_DI,
+  PAGE_TOO_ON_THE_NOSE_,
+  PAGE_THE_WHEELS_NEVER_GOES_BACKWARD,
+  PAGE_BELOVED_CHALIE,
+  PAGE_THREE_ROOM_1,
+  PAGE_ABYSS,
+  PAGE_LATE_TO_THE_PARTY,
+  PAGE_WORKSHOP,
+  PAGE_INFORMATION,
+];
+
+const pageMap = {};
+PAGES.forEach(p => pageMap[p.purl] = p);
+
+// Build nav
+function addNavLinks(ulId, purls) {
+  const ul = document.getElementById(ulId);
+  purls.forEach(purl => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#/' + purl;
+    a.textContent = NAV_NAMES[purl] || purl;
+    a.dataset.purl = purl;
+    a.onclick = e => { e.preventDefault(); navigate(purl); closeMobileNav(); };
+    li.appendChild(a); ul.appendChild(li);
+  });
+}
+addNavLinks('nav-works', WORKS);
+addNavLinks('nav-curations', CURATIONS);
+addNavLinks('m-nav-works', WORKS);
+addNavLinks('m-nav-curations', CURATIONS);
+
+// Extra links (workshop, about)
+['nav-extras','m-nav-extras'].forEach(id => {
+  const el = document.getElementById(id);
+  EXTRAS.forEach(purl => {
+    const a = document.createElement('a');
+    a.href = '#/' + purl;
+    a.textContent = EXTRA_LABELS[purl];
+    a.dataset.purl = purl;
+    a.onclick = e => { e.preventDefault(); navigate(purl); closeMobileNav(); };
+    el.appendChild(a);
+  });
+});
+
+// Extract year from a page's blocks
+function pageYear(p) {
+  for (const b of p.blocks) {
+    if (b.type === 'text' || b.type === 'caption' || b.type === 'info') {
+      const m = b.content.match(/\b(20\d{2})\b/);
+      if (m) return m[1];
+    }
+  }
+  return '';
+}
+
+// Build homepage gallery (works + curations)
+const galleryPurls = [...WORKS, ...CURATIONS];
+const grid = document.getElementById('gallery');
+galleryPurls.forEach(purl => {
+  const p = pageMap[purl];
+  if (!p || !p.thumb) return;
+  const cell = document.createElement('div');
+  cell.className = 'g-cell';
+  const img = document.createElement('img');
+  img.src = p.thumb;
+  img.alt = NAV_NAMES[purl] || p.title;
+  img.loading = 'lazy';
+  cell.appendChild(img);
+  // Hover overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'g-overlay';
+  const titleEl = document.createElement('span');
+  titleEl.className = 'g-overlay-title';
+  titleEl.textContent = NAV_NAMES[purl] || p.title;
+  overlay.appendChild(titleEl);
+  const yr = pageYear(p);
+  if (yr) {
+    const yearEl = document.createElement('span');
+    yearEl.className = 'g-overlay-year';
+    yearEl.textContent = yr;
+    overlay.appendChild(yearEl);
+  }
+  cell.appendChild(overlay);
+  cell.onclick = () => navigate(purl);
+  grid.appendChild(cell);
+});
+
+// Render blocks for a page
+function renderBlocks(blocks, container) {
+  container.innerHTML = '';
+  let firstImg = true;
+  blocks.forEach(b => {
+    if (b.type === 'title') return; // already shown in header
+    if (b.type === 'info') return;  // shown in proj-info, not body
+    if (b.type === 'image') {
+      const isPortraitHero = firstImg && b.h && b.w && (b.h > b.w * 1.15);
+      firstImg = false;
+      const div = document.createElement('div');
+      div.className = 'block-img' + (isPortraitHero ? ' block-img--portrait-hero' : '');
+      const img = document.createElement('img');
+      img.src = b.url;
+      img.alt = b.name || '';
+      img.loading = isPortraitHero ? 'eager' : 'lazy';
+      div.appendChild(img);
+      container.appendChild(div);
+    } else if (b.type === 'grid') {
+      const div = document.createElement('div');
+      div.className = 'block-grid';
+      div.style.gridTemplateColumns = `repeat(${Math.min(b.cols||2, b.images.length)}, 1fr)`;
+      b.images.forEach(gi => {
+        const img = document.createElement('img');
+        img.src = gi.url;
+        img.alt = '';
+        img.loading = 'lazy';
+        div.appendChild(img);
+      });
+      container.appendChild(div);
+    } else if (b.type === 'caption') {
+      const div = document.createElement('div');
+      div.className = 'block-caption';
+      div.textContent = b.content;
+      container.appendChild(div);
+    } else if (b.type === 'text') {
+      const wrap = document.createElement('div');
+      wrap.className = 'text-block-wrap';
+      const paras = b.content.split(/\n+/).filter(p => p.trim());
+      paras.forEach((para, idx) => {
+        const p = document.createElement('p');
+        // Detect meta lines: short lines at start that look like title/date/medium
+        const isMeta = idx < 4 && (
+          /^(January|February|March|April|May|June|July|August|September|October|November|December)\s+20\d\d/i.test(para) ||
+          /^Medium:/i.test(para) ||
+          /^(Size|Dimensions?|Duration|Year|Materials?):/i.test(para) ||
+          (idx === 0 && para.length < 60 && !/[.!?]$/.test(para))
+        );
+        p.className = isMeta ? 'text-meta' : 'text-para';
+        p.textContent = para.trim();
+        wrap.appendChild(p);
+      });
+      container.appendChild(wrap);
+    } else if (b.type === 'heading') {
+      const h = document.createElement('h2');
+      h.className = 'block-heading';
+      h.textContent = b.content;
+      container.appendChild(h);
+    } else if (b.type === 'list') {
+      const ul = document.createElement('ul');
+      ul.className = 'block-list';
+      b.items.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        ul.appendChild(li);
+      });
+      container.appendChild(ul);
+    } else if (b.type === 'divider') {
+      const hr = document.createElement('hr');
+      hr.className = 'block-divider';
+      container.appendChild(hr);
+    } else if (b.type === 'icon-cards') {
+      const grid = document.createElement('div');
+      grid.className = 'block-icon-cards';
+      b.items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'icon-card';
+        const iconEl = document.createElement('div');
+        iconEl.innerHTML = `<svg viewBox="0 0 24 24">${item.icon}</svg>`;
+        const label = document.createElement('div');
+        label.className = 'icon-card-label';
+        label.textContent = item.label;
+        const desc = document.createElement('div');
+        desc.className = 'icon-card-desc';
+        desc.textContent = item.desc;
+        card.appendChild(iconEl);
+        card.appendChild(label);
+        card.appendChild(desc);
+        grid.appendChild(card);
+      });
+      container.appendChild(grid);
+    } else if (b.type === 'format-cards') {
+      const wrap = document.createElement('div');
+      wrap.className = 'block-format-cards';
+      b.items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'format-card';
+        const time = document.createElement('div');
+        time.className = 'format-time';
+        time.textContent = item.time;
+        const right = document.createElement('div');
+        const name = document.createElement('div');
+        name.className = 'format-name';
+        name.textContent = item.name;
+        const desc = document.createElement('div');
+        desc.className = 'format-desc';
+        desc.textContent = item.desc;
+        right.appendChild(name);
+        right.appendChild(desc);
+        card.appendChild(time);
+        card.appendChild(right);
+        wrap.appendChild(card);
+      });
+      container.appendChild(wrap);
+    } else if (b.type === 'tag-cloud') {
+      const wrap = document.createElement('div');
+      wrap.className = 'block-tag-cloud';
+      b.items.forEach(item => {
+        const tag = document.createElement('span');
+        tag.className = 'topic-tag';
+        tag.textContent = item;
+        wrap.appendChild(tag);
+      });
+      container.appendChild(wrap);
+    } else if (b.type === 'audience-tags') {
+      const wrap = document.createElement('div');
+      wrap.className = 'block-audience-tags';
+      b.items.forEach(item => {
+        const chip = document.createElement('span');
+        chip.className = 'audience-chip';
+        chip.textContent = item;
+        wrap.appendChild(chip);
+      });
+      container.appendChild(wrap);
+    } else if (b.type === 'contact-links') {
+      const wrap = document.createElement('div');
+      wrap.className = 'block-contact-links';
+      b.items.forEach(item => {
+        const a = document.createElement('a');
+        a.className = 'contact-link-row';
+        a.href = item.href || '#';
+        if (item.href && item.href.startsWith('http')) a.target = '_blank';
+        a.innerHTML = `<svg viewBox="0 0 24 24">${item.icon}</svg><span>${item.label}</span>`;
+        wrap.appendChild(a);
+      });
+      container.appendChild(wrap);
+    } else if (b.type === 'video') {
+      const div = document.createElement('div');
+      div.className = 'block-video';
+      const iframe = document.createElement('iframe');
+      iframe.src = b.url;
+      iframe.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      iframe.setAttribute('allowfullscreen','');
+      iframe.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
+      div.appendChild(iframe);
+      container.appendChild(div);
+    }
+  });
+}
+
+// Navigation
+function navigate(purl) {
+  const page = pageMap[purl];
+  if (!page) { goHome(); return; }
+  window.location.hash = '/' + purl;
+  setActiveNav(purl);
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('proj-view').style.display = 'none';
+  document.getElementById('info-view').style.display = 'none';
+  // Stop kaleidoscope on subpages
+  document.getElementById('kCanvas').style.display = 'none';
+  document.body.classList.remove('at-home');
+
+  const isExtra = EXTRAS.includes(purl);
+  if (isExtra) {
+    const v = document.getElementById('info-view');
+    document.getElementById('info-title').textContent = NAV_NAMES[purl] || page.title;
+    renderBlocks(page.blocks, document.getElementById('info-body'));
+    v.style.display = 'block';
+    v.classList.remove('page-enter');
+    void v.offsetWidth; // reflow
+    v.classList.add('page-enter');
+  } else {
+    const v = document.getElementById('proj-view');
+    document.getElementById('proj-title').textContent = NAV_NAMES[purl] || page.title;
+    const infoBlock = page.blocks.find(b => b.type === 'info');
+    document.getElementById('proj-info').textContent = infoBlock ? infoBlock.content : '';
+    renderBlocks(page.blocks, document.getElementById('proj-body'));
+    v.style.display = 'block';
+    v.classList.remove('page-enter');
+    void v.offsetWidth;
+    v.classList.add('page-enter');
+  }
+  window.scrollTo(0, 0);
+}
+
+function goHome() {
+  window.location.hash = '';
+  setActiveNav(null);
+  const h = document.getElementById('home');
+  document.getElementById('proj-view').style.display = 'none';
+  document.getElementById('info-view').style.display = 'none';
+  document.getElementById('kCanvas').style.display = 'block';
+  document.body.classList.add('at-home');
+  h.style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+function setActiveNav(purl) {
+  document.querySelectorAll('[data-purl]').forEach(a => {
+    a.classList.toggle('active', a.dataset.purl === purl);
+  });
+}
+
+window.addEventListener('hashchange', () => {
+  const h = window.location.hash.replace('#/','');
+  if (!h) goHome(); else navigate(h);
+});
+(function() {
+  const h = window.location.hash.replace('#/','');
+  if (h) navigate(h); else {
+    document.body.classList.add('at-home');
+    document.getElementById('kCanvas').style.display = 'block';
+  }
+})();
+
+// Mobile nav
+function toggleNav() {
+  document.getElementById('burger').classList.toggle('open');
+  document.getElementById('m-nav').classList.toggle('open');
+}
+function closeMobileNav() {
+  document.getElementById('burger').classList.remove('open');
+  document.getElementById('m-nav').classList.remove('open');
+}
+
+// ── KALEIDOSCOPE ── full-screen, mouse interactive, tiling
+// Interaction model matches original Cargo:
+//   • Rotation: constant speed, purely time-driven — mouse has NO effect on speed
+//   • Mouse: controls texture pan offset (X+Y), smoothed with 0.20/0.80 lerp
+//   • Mouse stops → pan freezes at last position, rotation continues
+(function() {
+  const canvas = document.getElementById('kCanvas');
+  const SLICES = 6;
+  const BASE_ROT   = 55 * Math.PI / 180;
+  const ROT_SPEED  = 0.0008;  // radians per frame, constant (≈ original -0.04 rad/s at 60fps)
+
+  let rot = 0, imgLoaded = false;
+  let mouseX = 0.5, mouseY = 0.5;       // raw mouse (normalised 0-1), frozen when stopped
+  let smoothX = 0.5, smoothY = 0.5;     // lerped mouse position (0.20 new / 0.80 old)
+  let currentPanX = 0, currentPanY = 0; // derived pixel offsets into pattern
+  let pattern = null, patW = 0, patH = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX / window.innerWidth;
+    mouseY = e.clientY / window.innerHeight;
+  });
+
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+
+  function makePattern() {
+    if (!imgLoaded || !canvas.width) return;
+    const r = Math.sqrt(canvas.width*canvas.width + canvas.height*canvas.height)/2 + 10;
+    const sc = (r * 0.6) / Math.min(img.naturalWidth, img.naturalHeight);
+    const tw = Math.max(1, Math.round(img.naturalWidth  * sc));
+    const th = Math.max(1, Math.round(img.naturalHeight * sc));
+    patW = tw * 2;  // mirror cell = 2 tiles wide
+    patH = th * 2;  // mirror cell = 2 tiles tall
+    const pc = document.createElement('canvas');
+    pc.width = patW; pc.height = patH;
+    const pctx = pc.getContext('2d');
+    // top-left: original
+    pctx.drawImage(img, 0, 0, tw, th);
+    // top-right: flip horizontal
+    pctx.save(); pctx.translate(patW, 0); pctx.scale(-1, 1);
+    pctx.drawImage(img, 0, 0, tw, th); pctx.restore();
+    // bottom-left: flip vertical
+    pctx.save(); pctx.translate(0, patH); pctx.scale(1, -1);
+    pctx.drawImage(img, 0, 0, tw, th); pctx.restore();
+    // bottom-right: flip both
+    pctx.save(); pctx.translate(patW, patH); pctx.scale(-1, -1);
+    pctx.drawImage(img, 0, 0, tw, th); pctx.restore();
+    pattern = canvas.getContext('2d').createPattern(pc, 'repeat');
+  }
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    makePattern();
+  }
+
+  function draw() {
+    const W = canvas.width, H = canvas.height;
+    if (!W || !H) return;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, W, H);
+
+    if (!imgLoaded || !pattern) {
+      ctx.strokeStyle = 'rgba(42,223,81,0.25)';
+      ctx.lineWidth = .8;
+      const cx = W/2, cy = H/2;
+      for (let i=0;i<10;i++) { ctx.beginPath();ctx.arc(cx,cy,20+i*28,0,Math.PI*2);ctx.stroke(); }
+      for (let i=0;i<12;i++) {
+        const a=(i/12)*Math.PI*2+rot;
+        ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(a)*W,cy+Math.sin(a)*H);ctx.stroke();
+      }
+      return;
+    }
+
+    const cx = W/2, cy = H/2;
+    const r  = Math.sqrt(W*W+H*H)/2 + 10;
+    const sliceAngle = (Math.PI*2) / SLICES;
+
+    for (let i=0; i<SLICES; i++) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(i * sliceAngle + BASE_ROT + rot);
+      ctx.beginPath();
+      ctx.moveTo(0,0);
+      ctx.arc(0,0,r,-sliceAngle/2,sliceAngle/2);
+      ctx.closePath();
+      ctx.clip();
+      if (i%2===1) ctx.scale(1,-1);
+      try { pattern.setTransform(new DOMMatrix().translate(-patW/2 + currentPanX, -patH/2 + currentPanY)); }
+      catch(e) {}
+      ctx.fillStyle = pattern;
+      ctx.fillRect(-r, -r, r*2, r*2);
+      ctx.restore();
+    }
+  }
+
+  function animate() {
+    // ── Rotation: constant speed, no mouse influence ──
+    rot += ROT_SPEED;
+
+    // ── Pan: lerp mouse position (0.20 new / 0.80 old), like original Cargo ──
+    // mouseX/Y freeze at last position when mouse stops → pan holds still
+    smoothX = mouseX * 0.20 + smoothX * 0.80;
+    smoothY = mouseY * 0.20 + smoothY * 0.80;
+    currentPanX = (smoothX - 0.5) * patW * 0.6;
+    currentPanY = (smoothY - 0.5) * patH * 0.6;
+
+    draw();
+    requestAnimationFrame(animate);
+  }
+
+  img.onload  = () => { imgLoaded = true; makePattern(); };
+  img.onerror = () => { imgLoaded = false; };
+  img.src = 'https://freight.cargo.site/w/1000/i/S1473981300218595365384609486919/Copy-of-_DSC3970.jpg';
+
+  resize();
+  window.addEventListener('resize', resize);
+  animate();
+})();
+</script>
+</body>
+</html>
